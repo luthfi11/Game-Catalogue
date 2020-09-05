@@ -18,6 +18,6 @@ data class GameResponse (
     @field:SerializedName("rating")
     val rating: Double?,
 
-    @field:SerializedName("rating_count")
+    @field:SerializedName("ratings_count")
     val ratingCount: Int?
 )
