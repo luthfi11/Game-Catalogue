@@ -39,7 +39,7 @@ class GameRepository private constructor(
                 }
             }
 
-            override fun shouldFetch(data: List<Game>?): Boolean = true
+            override fun shouldFetch(data: List<Game>?): Boolean = false
 
             override fun createCall(): LiveData<ApiResponse<List<GameResponse>>> =
                 remoteDataSource.getGameList()

@@ -57,3 +57,11 @@ v
 Fapp/src/main/java/com/luthfi/gamecatalogue/explore/ExploreViewModel.kt,c\3\c3ed595fd0bfcb07db8668f5d106bf15df2103be
 v
 Fapp/src/main/java/com/luthfi/gamecatalogue/core/ui/ViewModelFactory.kt,d\b\db78f5be30c820f63abbaab5230abbbffe89c4e5
+u
+Eapp/src/main/java/com/luthfi/gamecatalogue/explore/ExploreFragment.kt,c\8\c801684f3648884512e4194d72def1f207a9c97a
+w
+Gapp/src/main/java/com/luthfi/gamecatalogue/favorite/FavoriteFragment.kt,6\6\66e14264d94017485b4ea61480e56b9bc711f850
+P
+ app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
+o
+?app/src/main/java/com/luthfi/gamecatalogue/home/HomeFragment.kt,6\c\6c1566db19a22d42785e9ba32f0d3b566312d91d

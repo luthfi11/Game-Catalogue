@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.luthfi.gamecatalogue.core.di.Injection
 import com.luthfi.gamecatalogue.core.domain.usecase.GameUseCase
+import com.luthfi.gamecatalogue.detail.GameDetailViewModel
 import com.luthfi.gamecatalogue.explore.ExploreViewModel
 import com.luthfi.gamecatalogue.favorite.FavoriteViewModel
 import com.luthfi.gamecatalogue.home.HomeViewModel
@@ -32,6 +33,9 @@ class ViewModelFactory private constructor(private val gameUseCase: GameUseCase)
             }
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
                 FavoriteViewModel(gameUseCase) as T
+            }
+            modelClass.isAssignableFrom(GameDetailViewModel::class.java) -> {
+                GameDetailViewModel(gameUseCase) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

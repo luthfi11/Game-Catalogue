@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var gameAdapter: GameAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -26,25 +27,16 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (activity != null) {
-            val gameAdapter = GameAdapter()
-            val factory = ViewModelFactory.getInstance(requireActivity())
+            gameAdapter = GameAdapter()
 
+            val factory = ViewModelFactory.getInstance(requireActivity())
             homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
-            homeViewModel.game.observe(viewLifecycleOwner, { game ->
-                if (game != null) {
-                    when(game) {
-                        is Resource.Loading -> swipeHome.isRefreshing = true
-                        is Resource.Success -> {
-                            swipeHome.isRefreshing = false
-                            gameAdapter.setData(game.data)
-                        }
-                        is Resource.Error -> {
-                            swipeHome.isRefreshing = true
-                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            })
+
+            getGameData()
+
+            swipeHome.setOnRefreshListener {
+                getGameData()
+            }
 
             with(rvPopularGame) {
                 layoutManager = LinearLayoutManager(context)
@@ -52,5 +44,23 @@ class HomeFragment : Fragment() {
                 adapter = gameAdapter
             }
         }
+    }
+
+    private fun getGameData() {
+        homeViewModel.game.observe(viewLifecycleOwner, { game ->
+            if (game != null) {
+                when(game) {
+                    is Resource.Loading -> swipeHome.isRefreshing = true
+                    is Resource.Success -> {
+                        swipeHome.isRefreshing = false
+                        gameAdapter.setData(game.data)
+                    }
+                    is Resource.Error -> {
+                        swipeHome.isRefreshing = true
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
     }
 }

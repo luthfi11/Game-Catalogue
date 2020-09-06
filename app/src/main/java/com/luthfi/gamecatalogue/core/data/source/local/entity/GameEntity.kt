@@ -14,5 +14,5 @@ data class GameEntity (
     var backgroundImage: String?,
     var rating: Double?,
     var ratingCount: Int?,
-    var isFavorite: Boolean? = false
+    var isFavorite: Boolean = false
 )
