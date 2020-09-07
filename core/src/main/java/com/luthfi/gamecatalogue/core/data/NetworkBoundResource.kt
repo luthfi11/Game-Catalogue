@@ -1,10 +1,9 @@
 package com.luthfi.gamecatalogue.core.data
 
 import com.luthfi.gamecatalogue.core.data.source.remote.network.ApiResponse
-import com.luthfi.gamecatalogue.core.utils.AppExecutors
 import kotlinx.coroutines.flow.*
 
-abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecutors: AppExecutors) {
+abstract class NetworkBoundResource<ResultType, RequestType> {
 
     private var result: Flow<Resource<ResultType>> = flow {
         emit(Resource.Loading())

@@ -6,10 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 class LocalDataSource(private val gameDao: GameDao) {
 
-    companion object {
-        private var instance: LocalDataSource? = null
-    }
-
     fun getGameList() : Flow<List<GameEntity>> = gameDao.getGameList()
 
     fun getFavoriteGame() : Flow<List<GameEntity>> = gameDao.getFavoriteGame()

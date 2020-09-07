@@ -8,9 +8,4 @@ import com.luthfi.gamecatalogue.core.data.source.local.entity.GameEntity
 abstract class GameDatabase : RoomDatabase() {
 
     abstract fun gameDao(): GameDao
-
-    companion object {
-        @Volatile
-        private var INSTANCE: GameDatabase? = null
-    }
 }

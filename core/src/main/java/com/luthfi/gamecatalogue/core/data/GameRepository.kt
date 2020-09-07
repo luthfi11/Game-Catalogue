@@ -17,13 +17,8 @@ class GameRepository(
     private val appExecutors: AppExecutors
 ) : IGameRepository {
 
-    companion object {
-        @Volatile
-        private var instance: GameRepository? = null
-    }
-
     override fun getGameList(): Flow<Resource<List<Game>>> =
-        object : NetworkBoundResource<List<Game>, List<GameResponse>>(appExecutors) {
+        object : NetworkBoundResource<List<Game>, List<GameResponse>>() {
             override fun loadFromDB(): Flow<List<Game>> {
                 return localDataSource.getGameList().map { DataMapper.mapEntitiesToDomain(it)}
             }
@@ -47,6 +42,5 @@ class GameRepository(
         val gameEntity = DataMapper.mapDomainToEntity(game)
         appExecutors.diskIO().execute { localDataSource.setFavoriteGame(gameEntity, state) }
     }
-
 
 }
