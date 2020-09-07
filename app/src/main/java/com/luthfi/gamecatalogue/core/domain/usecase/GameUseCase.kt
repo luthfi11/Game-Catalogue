@@ -1,11 +1,11 @@
 package com.luthfi.gamecatalogue.core.domain.usecase
 
-import androidx.lifecycle.LiveData
 import com.luthfi.gamecatalogue.core.data.Resource
 import com.luthfi.gamecatalogue.core.domain.model.Game
+import kotlinx.coroutines.flow.Flow
 
 interface GameUseCase {
-    fun getGameList(): LiveData<Resource<List<Game>>>
-    fun getFavoriteGame(): LiveData<List<Game>>
+    fun getGameList(): Flow<Resource<List<Game>>>
+    fun getFavoriteGame(): Flow<List<Game>>
     fun setFavoriteGame(game: Game, state: Boolean)
 }

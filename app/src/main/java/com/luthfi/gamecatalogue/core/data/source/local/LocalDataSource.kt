@@ -1,8 +1,8 @@
 package com.luthfi.gamecatalogue.core.data.source.local
 
-import androidx.lifecycle.LiveData
 import com.luthfi.gamecatalogue.core.data.source.local.entity.GameEntity
 import com.luthfi.gamecatalogue.core.data.source.local.room.GameDao
+import kotlinx.coroutines.flow.Flow
 
 class LocalDataSource private constructor(private val gameDao: GameDao) {
 
@@ -15,11 +15,11 @@ class LocalDataSource private constructor(private val gameDao: GameDao) {
             }
     }
 
-    fun getGameList() : LiveData<List<GameEntity>> = gameDao.getGameList()
+    fun getGameList() : Flow<List<GameEntity>> = gameDao.getGameList()
 
-    fun getFavoriteGame() : LiveData<List<GameEntity>> = gameDao.getFavoriteGame()
+    fun getFavoriteGame() : Flow<List<GameEntity>> = gameDao.getFavoriteGame()
 
-    fun insertGame(game: List<GameEntity>) = gameDao.insertGame(game)
+    suspend fun insertGame(game: List<GameEntity>) = gameDao.insertGame(game)
 
     fun setFavoriteGame(game: GameEntity, newState: Boolean) {
         game.isFavorite = newState
