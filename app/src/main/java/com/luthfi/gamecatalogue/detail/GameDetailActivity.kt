@@ -4,26 +4,22 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.luthfi.gamecatalogue.R
 import com.luthfi.gamecatalogue.core.domain.model.Game
-import com.luthfi.gamecatalogue.core.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_game_detail.*
 import kotlinx.android.synthetic.main.content_game_detail.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class GameDetailActivity : AppCompatActivity() {
 
-    private lateinit var gameDetailViewModel: GameDetailViewModel
+    private val gameDetailViewModel: GameDetailViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_detail)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val factory = ViewModelFactory.getInstance(this)
-        gameDetailViewModel = ViewModelProvider(this, factory)[GameDetailViewModel::class.java]
 
         val game = intent.getParcelableExtra<Game>("game")
         showGameDetail(game)

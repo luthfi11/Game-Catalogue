@@ -6,17 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luthfi.gamecatalogue.R
 import com.luthfi.gamecatalogue.core.data.Resource
 import com.luthfi.gamecatalogue.core.ui.GameAdapter
-import com.luthfi.gamecatalogue.core.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModel()
     private lateinit var gameAdapter: GameAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -28,9 +27,6 @@ class HomeFragment : Fragment() {
 
         if (activity != null) {
             gameAdapter = GameAdapter()
-
-            val factory = ViewModelFactory.getInstance(requireActivity())
-            homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
             getGameData()
 

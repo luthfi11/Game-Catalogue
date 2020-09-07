@@ -1,8 +1,6 @@
 package com.luthfi.gamecatalogue.core.data.source.local.room
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.luthfi.gamecatalogue.core.data.source.local.entity.GameEntity
 
@@ -14,18 +12,5 @@ abstract class GameDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: GameDatabase? = null
-
-        fun getInstance(context: Context): GameDatabase =
-            INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    GameDatabase::class.java,
-                    "Game.db"
-                )
-                    .fallbackToDestructiveMigration()
-                    .build()
-                INSTANCE = instance
-                instance
-            }
     }
 }

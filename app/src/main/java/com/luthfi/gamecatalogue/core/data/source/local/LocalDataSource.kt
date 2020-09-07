@@ -4,15 +4,10 @@ import com.luthfi.gamecatalogue.core.data.source.local.entity.GameEntity
 import com.luthfi.gamecatalogue.core.data.source.local.room.GameDao
 import kotlinx.coroutines.flow.Flow
 
-class LocalDataSource private constructor(private val gameDao: GameDao) {
+class LocalDataSource(private val gameDao: GameDao) {
 
     companion object {
         private var instance: LocalDataSource? = null
-
-        fun getInstance(gameDao: GameDao): LocalDataSource =
-            instance ?: synchronized(this) {
-                instance ?: LocalDataSource(gameDao)
-            }
     }
 
     fun getGameList() : Flow<List<GameEntity>> = gameDao.getGameList()

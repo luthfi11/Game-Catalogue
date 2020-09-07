@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.luthfi.gamecatalogue.R
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ExploreFragment : Fragment() {
 
-    private lateinit var exploreViewModel: ExploreViewModel
+    private val exploreViewModel: ExploreViewModel by viewModel()
 
     override fun onCreateView(
             inflater: LayoutInflater,
