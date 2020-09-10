@@ -10,6 +10,8 @@ class LocalDataSource(private val gameDao: GameDao) {
 
     fun getUpcomingGames() : Flow<List<GameEntity>> = gameDao.getUpcomingGames()
 
+    fun getTopRatedGames() : Flow<List<GameEntity>> = gameDao.getTopRatedGames()
+
     fun getGameDetail(id: Int) : Flow<GameEntity> = gameDao.getGameDetail(id)
 
     fun getFavoriteGame() : Flow<List<GameEntity>> = gameDao.getFavoriteGame()

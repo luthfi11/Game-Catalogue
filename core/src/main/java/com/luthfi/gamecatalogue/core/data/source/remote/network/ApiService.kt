@@ -7,11 +7,14 @@ import retrofit2.http.Path
 
 interface ApiService {
 
-    @GET("games?page_size=10")
+    @GET("games?page_size=15")
     suspend fun getPopularGames(): ListGameResponse
 
-    @GET("games?ordering=released&page_size=10")
+    @GET("games?ordering=released&page_size=15")
     suspend fun getUpcomingGames(): ListGameResponse
+
+    @GET("games?ordering=-rating&page_size=15")
+    suspend fun getTopRatedGames(): ListGameResponse
 
     @GET("games/{id}")
     suspend fun getGameDetail(@Path("id") id: String): GameResponse

@@ -15,7 +15,6 @@ import com.luthfi.gamecatalogue.core.domain.model.Game
 import com.luthfi.gamecatalogue.core.utils.dateFormat
 import kotlinx.android.synthetic.main.activity_game_detail.*
 import kotlinx.android.synthetic.main.content_game_detail.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GameDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
@@ -46,7 +45,7 @@ class GameDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedList
                     showGameDetail(game.data)
                 }
                 is Resource.Error -> {
-                    swipeHome.isRefreshing = true
+                    swipeDetail.isRefreshing = true
                     Toast.makeText(this, game.message, Toast.LENGTH_SHORT).show()
                 }
             }

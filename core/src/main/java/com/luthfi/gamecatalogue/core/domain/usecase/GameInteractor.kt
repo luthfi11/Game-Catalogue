@@ -11,6 +11,8 @@ class GameInteractor(private val gameRepository: IGameRepository) : GameUseCase 
 
     override fun getUpcomingGames(): Flow<Resource<List<Game>>> = gameRepository.getUpcomingGames()
 
+    override fun getTopRatedGames(): Flow<Resource<List<Game>>> = gameRepository.getTopRatedGames()
+
     override fun getGameDetail(id: String): Flow<Resource<Game>> = gameRepository.getGameDetail(id)
 
     override fun getFavoriteGame() = gameRepository.getFavoriteGame()

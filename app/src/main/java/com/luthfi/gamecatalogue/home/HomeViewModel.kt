@@ -7,4 +7,5 @@ import com.luthfi.gamecatalogue.core.domain.usecase.GameUseCase
 class HomeViewModel(gameUseCase: GameUseCase) : ViewModel() {
     val popularGames = gameUseCase.getPopularGames().asLiveData()
     val upcomingGames = gameUseCase.getUpcomingGames().asLiveData()
+    val topRatedGames = gameUseCase.getTopRatedGames().asLiveData()
 }

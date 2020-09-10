@@ -20,6 +20,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModel()
     private lateinit var popularGameAdapter: GameAdapter
     private lateinit var upcomingGameAdapter: GameAdapter
+    private lateinit var topRatedGamesAdapter: GameAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,11 +40,12 @@ class HomeFragment : Fragment() {
             upcomingGameAdapter = GameAdapter()
             upcomingGameAdapter.onItemClick = { goToDetail(it.id) }
 
-            getGameData()
+            topRatedGamesAdapter = GameAdapter()
+            topRatedGamesAdapter.onItemClick = { goToDetail(it.id) }
 
-            swipeHome.setOnRefreshListener {
-                getGameData()
-            }
+            getPopularGames()
+            getUpcomingGames()
+            getTopRatedGames()
 
             with(rvPopularGame) {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -56,34 +58,62 @@ class HomeFragment : Fragment() {
                 setHasFixedSize(true)
                 adapter = upcomingGameAdapter
             }
+
+            with(rvTopRatedGame) {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(true)
+                adapter = topRatedGamesAdapter
+            }
         }
     }
 
-    private fun getGameData() {
+    private fun getPopularGames() {
         homeViewModel.popularGames.observe(viewLifecycleOwner, { game ->
             if (game != null) {
                 when (game) {
-                    is Resource.Loading -> swipeHome.isRefreshing = true
+                    is Resource.Loading -> progressPopular.visibility = View.VISIBLE
                     is Resource.Success -> {
-                        swipeHome.isRefreshing = false
+                        progressPopular.visibility = View.GONE
                         popularGameAdapter.setData(game.data)
                     }
                     is Resource.Error -> {
-                        swipeHome.isRefreshing = true
+                        progressPopular.visibility = View.INVISIBLE
                         Toast.makeText(context, game.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         })
+    }
 
+    private fun getUpcomingGames() {
         homeViewModel.upcomingGames.observe(viewLifecycleOwner, { game ->
             if (game != null) {
                 when (game) {
-                    is Resource.Loading -> { }
+                    is Resource.Loading -> progressUpcoming.visibility = View.VISIBLE
                     is Resource.Success -> {
+                        progressUpcoming.visibility = View.GONE
                         upcomingGameAdapter.setData(game.data)
                     }
                     is Resource.Error -> {
+                        progressUpcoming.visibility = View.INVISIBLE
+                        Toast.makeText(context, game.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun getTopRatedGames() {
+        homeViewModel.topRatedGames.observe(viewLifecycleOwner, { game ->
+            if (game != null) {
+                when (game) {
+                    is Resource.Loading -> progressTopRated.visibility = View.VISIBLE
+                    is Resource.Success -> {
+                        progressTopRated.visibility = View.GONE
+                        topRatedGamesAdapter.setData(game.data)
+                    }
+                    is Resource.Error -> {
+                        progressTopRated.visibility = View.INVISIBLE
                         Toast.makeText(context, game.message, Toast.LENGTH_SHORT).show()
                     }
                 }

@@ -1,6 +1,5 @@
 package com.luthfi.gamecatalogue.core.data
 
-import android.util.Log
 import com.luthfi.gamecatalogue.core.data.source.local.LocalDataSource
 import com.luthfi.gamecatalogue.core.data.source.remote.RemoteDataSource
 import com.luthfi.gamecatalogue.core.data.source.remote.network.ApiResponse
@@ -31,7 +30,6 @@ class GameRepository(
 
             override suspend fun saveCallResult(data: List<GameResponse>) {
                 val gameList = DataMapper.mapResponseToEntities(data)
-                Log.d("AAAAAAAAAAA", gameList.toString())
                 localDataSource.insertGameList(gameList)
             }
         }.asFlow()
@@ -49,7 +47,23 @@ class GameRepository(
 
             override suspend fun saveCallResult(data: List<GameResponse>) {
                 val gameList = DataMapper.mapResponseToEntities(data)
-                Log.d("BBBBBB", gameList.toString())
+                localDataSource.insertGameList(gameList)
+            }
+        }.asFlow()
+
+    override fun getTopRatedGames(): Flow<Resource<List<Game>>> =
+        object : NetworkBoundResource<List<Game>, List<GameResponse>>() {
+            override fun loadFromDB(): Flow<List<Game>> {
+                return localDataSource.getTopRatedGames().map { DataMapper.mapEntitiesToDomain(it)}
+            }
+
+            override fun shouldFetch(data: List<Game>?): Boolean = data == null || data.isEmpty()
+
+            override suspend fun createCall(): Flow<ApiResponse<List<GameResponse>>> =
+                remoteDataSource.getTopRatedGames()
+
+            override suspend fun saveCallResult(data: List<GameResponse>) {
+                val gameList = DataMapper.mapResponseToEntities(data)
                 localDataSource.insertGameList(gameList)
             }
         }.asFlow()

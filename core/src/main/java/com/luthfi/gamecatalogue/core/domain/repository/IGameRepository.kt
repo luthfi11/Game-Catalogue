@@ -10,6 +10,8 @@ interface IGameRepository {
 
     fun getUpcomingGames(): Flow<Resource<List<Game>>>
 
+    fun getTopRatedGames(): Flow<Resource<List<Game>>>
+
     fun getGameDetail(id: String): Flow<Resource<Game>>
 
     fun getFavoriteGame(): Flow<List<Game>>

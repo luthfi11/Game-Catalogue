@@ -7,11 +7,14 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GameDao {
 
-    @Query("SELECT * FROM game WHERE released IS NOT NULL")
+    @Query("SELECT * FROM game WHERE ratingCount > 1000")
     fun getPopularGames(): Flow<List<GameEntity>>
 
     @Query("SELECT * FROM game WHERE released IS NULL")
     fun getUpcomingGames(): Flow<List<GameEntity>>
+
+    @Query("SELECT * FROM game WHERE rating >= 4.8 AND released IS NOT NULL")
+    fun getTopRatedGames(): Flow<List<GameEntity>>
 
     @Query("SELECT * FROM game WHERE id = :id")
     fun getGameDetail(id: Int): Flow<GameEntity>
