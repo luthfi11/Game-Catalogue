@@ -7,14 +7,23 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GameDao {
 
-    @Query("SELECT * FROM game")
-    fun getGameList(): Flow<List<GameEntity>>
+    @Query("SELECT * FROM game WHERE released IS NOT NULL")
+    fun getPopularGames(): Flow<List<GameEntity>>
+
+    @Query("SELECT * FROM game WHERE released IS NULL")
+    fun getUpcomingGames(): Flow<List<GameEntity>>
+
+    @Query("SELECT * FROM game WHERE id = :id")
+    fun getGameDetail(id: Int): Flow<GameEntity>
 
     @Query("SELECT * FROM game WHERE isFavorite = 1")
     fun getFavoriteGame(): Flow<List<GameEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertGame(game: List<GameEntity>)
+    suspend fun insertGameList(game: List<GameEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertGame(game: GameEntity)
 
     @Update
     fun updateFavoriteGame(gameEntity: GameEntity)

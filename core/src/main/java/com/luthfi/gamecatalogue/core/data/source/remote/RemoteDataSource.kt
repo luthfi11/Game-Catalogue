@@ -11,19 +11,43 @@ import kotlinx.coroutines.flow.flowOn
 
 class RemoteDataSource(private val apiService: ApiService) {
 
-    suspend fun getGameList(): Flow<ApiResponse<List<GameResponse>>>
-        = flow {
-            try {
-                val response = apiService.getGameList()
-                val dataArray = response.results
-                if (dataArray.isNotEmpty()) {
-                    emit(ApiResponse.Success(response.results))
-                } else {
-                    emit(ApiResponse.Empty)
-                }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-                Log.e("RemoteDataSource", e.message.toString())
+    suspend fun getPopularGames(): Flow<ApiResponse<List<GameResponse>>> = flow {
+        try {
+            val response = apiService.getPopularGames()
+            val dataArray = response.results
+            if (dataArray.isNotEmpty()) {
+                emit(ApiResponse.Success(response.results))
+            } else {
+                emit(ApiResponse.Empty)
             }
-        }.flowOn(Dispatchers.IO)
+        } catch (e: Exception) {
+            emit(ApiResponse.Error(e.toString()))
+            Log.e("RemoteDataSource", e.message.toString())
+        }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun getUpcomingGames(): Flow<ApiResponse<List<GameResponse>>> = flow {
+        try {
+            val response = apiService.getUpcomingGames()
+            val dataArray = response.results
+            if (dataArray.isNotEmpty()) {
+                emit(ApiResponse.Success(response.results))
+            } else {
+                emit(ApiResponse.Empty)
+            }
+        } catch (e: Exception) {
+            emit(ApiResponse.Error(e.toString()))
+            Log.e("RemoteDataSource", e.message.toString())
+        }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun getGameDetail(id: String): Flow<ApiResponse<GameResponse>> = flow {
+        try {
+            val response = apiService.getGameDetail(id)
+            emit(ApiResponse.Success(response))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error(e.toString()))
+            Log.e("RemoteDataSource", e.message.toString())
+        }
+    }.flowOn(Dispatchers.IO)
 }

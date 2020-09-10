@@ -11,5 +11,7 @@ data class Game (
     val backgroundImage: String?,
     val rating: Double?,
     val ratingCount: Int?,
+    val description: String?,
+    val website: String?,
     val isFavorite: Boolean
 ): Parcelable

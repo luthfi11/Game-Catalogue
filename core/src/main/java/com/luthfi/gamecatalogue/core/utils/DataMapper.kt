@@ -16,6 +16,8 @@ object DataMapper  {
                 backgroundImage = it.backgroundImage,
                 rating = it.rating,
                 ratingCount = it.ratingCount,
+                description = it.description,
+                website = it.website,
                 isFavorite = false
             )
             gameList.add(game)
@@ -32,7 +34,9 @@ object DataMapper  {
                 backgroundImage = it.backgroundImage,
                 rating = it.rating,
                 ratingCount = it.ratingCount,
-                isFavorite = it.isFavorite
+                isFavorite = it.isFavorite,
+                description = it.description,
+                website = it.website
             )
         }
 
@@ -43,6 +47,32 @@ object DataMapper  {
         backgroundImage = input.backgroundImage,
         rating = input.rating,
         ratingCount = input.ratingCount,
+        description = input.description,
+        website = input.website,
         isFavorite = input.isFavorite
+    )
+
+    fun mapEntityToDomain(input: GameEntity) = Game(
+        id = input.id,
+        name = input.name,
+        released = input.released,
+        backgroundImage = input.backgroundImage,
+        rating = input.rating,
+        ratingCount = input.ratingCount,
+        description = input.description,
+        website = input.website,
+        isFavorite = input.isFavorite
+    )
+
+    fun mapResponseToEntity(input: GameResponse) = GameEntity(
+        id = input.id,
+        name = input.name,
+        released = input.released,
+        backgroundImage = input.backgroundImage,
+        rating = input.rating,
+        ratingCount = input.ratingCount,
+        description = input.description,
+        website = input.website,
+        isFavorite = false
     )
 }

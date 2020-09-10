@@ -18,9 +18,14 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModel()
-    private lateinit var gameAdapter: GameAdapter
+    private lateinit var popularGameAdapter: GameAdapter
+    private lateinit var upcomingGameAdapter: GameAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -28,12 +33,11 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (activity != null) {
-            gameAdapter = GameAdapter()
-            gameAdapter.onItemClick = {
-                val intent = Intent(context, GameDetailActivity::class.java)
-                intent.putExtra("game", it)
-                startActivity(intent)
-            }
+            popularGameAdapter = GameAdapter()
+            popularGameAdapter.onItemClick = { goToDetail(it.id) }
+
+            upcomingGameAdapter = GameAdapter()
+            upcomingGameAdapter.onItemClick = { goToDetail(it.id) }
 
             getGameData()
 
@@ -42,28 +46,54 @@ class HomeFragment : Fragment() {
             }
 
             with(rvPopularGame) {
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
-                adapter = gameAdapter
+                adapter = popularGameAdapter
+            }
+
+            with(rvUpcomingGame) {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(true)
+                adapter = upcomingGameAdapter
             }
         }
     }
 
     private fun getGameData() {
-        homeViewModel.game.observe(viewLifecycleOwner, { game ->
+        homeViewModel.popularGames.observe(viewLifecycleOwner, { game ->
             if (game != null) {
-                when(game) {
+                when (game) {
                     is Resource.Loading -> swipeHome.isRefreshing = true
                     is Resource.Success -> {
                         swipeHome.isRefreshing = false
-                        gameAdapter.setData(game.data)
+                        popularGameAdapter.setData(game.data)
                     }
                     is Resource.Error -> {
                         swipeHome.isRefreshing = true
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, game.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         })
+
+        homeViewModel.upcomingGames.observe(viewLifecycleOwner, { game ->
+            if (game != null) {
+                when (game) {
+                    is Resource.Loading -> { }
+                    is Resource.Success -> {
+                        upcomingGameAdapter.setData(game.data)
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(context, game.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun goToDetail(id: Int?) {
+        val intent = Intent(context, GameDetailActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
     }
 }

@@ -19,5 +19,11 @@ data class GameResponse (
     val rating: Double?,
 
     @field:SerializedName("ratings_count")
-    val ratingCount: Int?
+    val ratingCount: Int?,
+
+    @field:SerializedName("description_raw")
+    val description: String?,
+
+    @field:SerializedName("website")
+    val website: String?
 )

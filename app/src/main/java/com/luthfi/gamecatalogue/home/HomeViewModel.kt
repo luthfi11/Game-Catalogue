@@ -5,5 +5,6 @@ import androidx.lifecycle.asLiveData
 import com.luthfi.gamecatalogue.core.domain.usecase.GameUseCase
 
 class HomeViewModel(gameUseCase: GameUseCase) : ViewModel() {
-    val game = gameUseCase.getGameList().asLiveData()
+    val popularGames = gameUseCase.getPopularGames().asLiveData()
+    val upcomingGames = gameUseCase.getUpcomingGames().asLiveData()
 }

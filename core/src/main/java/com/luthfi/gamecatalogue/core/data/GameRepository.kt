@@ -1,5 +1,6 @@
 package com.luthfi.gamecatalogue.core.data
 
+import android.util.Log
 import com.luthfi.gamecatalogue.core.data.source.local.LocalDataSource
 import com.luthfi.gamecatalogue.core.data.source.remote.RemoteDataSource
 import com.luthfi.gamecatalogue.core.data.source.remote.network.ApiResponse
@@ -17,21 +18,58 @@ class GameRepository(
     private val appExecutors: AppExecutors
 ) : IGameRepository {
 
-    override fun getGameList(): Flow<Resource<List<Game>>> =
+    override fun getPopularGames(): Flow<Resource<List<Game>>> =
         object : NetworkBoundResource<List<Game>, List<GameResponse>>() {
             override fun loadFromDB(): Flow<List<Game>> {
-                return localDataSource.getGameList().map { DataMapper.mapEntitiesToDomain(it)}
+                return localDataSource.getPopularGames().map { DataMapper.mapEntitiesToDomain(it)}
             }
 
             override fun shouldFetch(data: List<Game>?): Boolean = data == null || data.isEmpty()
 
             override suspend fun createCall(): Flow<ApiResponse<List<GameResponse>>> =
-                remoteDataSource.getGameList()
+                remoteDataSource.getPopularGames()
 
             override suspend fun saveCallResult(data: List<GameResponse>) {
                 val gameList = DataMapper.mapResponseToEntities(data)
-                localDataSource.insertGame(gameList)
+                Log.d("AAAAAAAAAAA", gameList.toString())
+                localDataSource.insertGameList(gameList)
             }
+        }.asFlow()
+
+    override fun getUpcomingGames(): Flow<Resource<List<Game>>> =
+        object : NetworkBoundResource<List<Game>, List<GameResponse>>() {
+            override fun loadFromDB(): Flow<List<Game>> {
+                return localDataSource.getUpcomingGames().map { DataMapper.mapEntitiesToDomain(it)}
+            }
+
+            override fun shouldFetch(data: List<Game>?): Boolean = data == null || data.isEmpty()
+
+            override suspend fun createCall(): Flow<ApiResponse<List<GameResponse>>> =
+                remoteDataSource.getUpcomingGames()
+
+            override suspend fun saveCallResult(data: List<GameResponse>) {
+                val gameList = DataMapper.mapResponseToEntities(data)
+                Log.d("BBBBBB", gameList.toString())
+                localDataSource.insertGameList(gameList)
+            }
+        }.asFlow()
+
+    override fun getGameDetail(id: String): Flow<Resource<Game>> =
+        object : NetworkBoundResource<Game, GameResponse>() {
+            override fun loadFromDB(): Flow<Game> {
+                return localDataSource.getGameDetail(id.toInt()).map { DataMapper.mapEntityToDomain(it) }
+            }
+
+            override fun shouldFetch(data: Game?): Boolean = data?.description == null
+
+            override suspend fun createCall(): Flow<ApiResponse<GameResponse>> =
+                remoteDataSource.getGameDetail(id)
+
+            override suspend fun saveCallResult(data: GameResponse) {
+                val game = DataMapper.mapResponseToEntity(data)
+                localDataSource.insertGame(game)
+            }
+
         }.asFlow()
 
     override fun getFavoriteGame(): Flow<List<Game>> {

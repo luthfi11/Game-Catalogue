@@ -28,7 +28,7 @@ class FavoriteFragment : Fragment() {
             val gameAdapter = GameAdapter()
             gameAdapter.onItemClick = {
                 val intent = Intent(context, GameDetailActivity::class.java)
-                intent.putExtra("game", it)
+                intent.putExtra("id", it.id)
                 startActivity(intent)
             }
 
