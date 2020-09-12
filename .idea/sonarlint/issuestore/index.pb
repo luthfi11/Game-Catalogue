@@ -53,3 +53,13 @@ Gcore/src/main/java/com/luthfi/gamecatalogue/core/data/GameRepository.kt,7\0\70
 Mcore/src/main/java/com/luthfi/gamecatalogue/core/data/NetworkBoundResource.kt,0\c\0c2e40bc639a6443c78d9c981f6ec5011ad3c550
 t
 Dcore/src/main/java/com/luthfi/gamecatalogue/core/utils/DateFormat.kt,2\3\23c1fa9d03dbcd62923fb03992c64baca3276d97
+q
+Acore/src/main/java/com/luthfi/gamecatalogue/core/data/Resource.kt,e\0\e068572aff17e1384c0d0b44502287944b66fccc
+r
+Bcore/src/main/java/com/luthfi/gamecatalogue/core/ui/GameAdapter.kt,4\3\43dc9c366357ad266ccf4cd80654826f498d1760
+z
+Jcore/src/main/java/com/luthfi/gamecatalogue/core/ui/FavoriteGameAdapter.kt,f\0\f0562b0aa538bc5deba8e88f353c09abf7bf42e4
+v
+Fcore/src/main/java/com/luthfi/gamecatalogue/core/domain/model/Genre.kt,8\5\858b6896c1afb5c3e0c0e8df7259bcbb32de20d1
+x
+Hcore/src/main/java/com/luthfi/gamecatalogue/core/utils/GenreConverter.kt,b\a\ba8c597b103a5b4405ee7679497c4f0b60f869a5

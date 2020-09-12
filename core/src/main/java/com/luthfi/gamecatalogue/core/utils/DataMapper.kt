@@ -18,6 +18,8 @@ object DataMapper  {
                 ratingCount = it.ratingCount,
                 description = it.description,
                 website = it.website,
+                genres = it.genres,
+                screenshot = it.screenshot,
                 isFavorite = false
             )
             gameList.add(game)
@@ -36,7 +38,9 @@ object DataMapper  {
                 ratingCount = it.ratingCount,
                 isFavorite = it.isFavorite,
                 description = it.description,
-                website = it.website
+                website = it.website,
+                genres = it.genres,
+                screenshot = it.screenshot,
             )
         }
 
@@ -49,6 +53,8 @@ object DataMapper  {
         ratingCount = input.ratingCount,
         description = input.description,
         website = input.website,
+        genres = input.genres,
+        screenshot = input.screenshot,
         isFavorite = input.isFavorite
     )
 
@@ -61,6 +67,8 @@ object DataMapper  {
         ratingCount = input.ratingCount,
         description = input.description,
         website = input.website,
+        genres = input.genres,
+        screenshot = input.screenshot,
         isFavorite = input.isFavorite
     )
 
@@ -73,6 +81,8 @@ object DataMapper  {
         ratingCount = input.ratingCount,
         description = input.description,
         website = input.website,
+        genres = input.genres,
+        screenshot = input.screenshot,
         isFavorite = false
     )
 }

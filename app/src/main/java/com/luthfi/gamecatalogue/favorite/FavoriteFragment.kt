@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luthfi.gamecatalogue.R
-import com.luthfi.gamecatalogue.core.ui.GameAdapter
+import com.luthfi.gamecatalogue.core.ui.FavoriteGameAdapter
 import com.luthfi.gamecatalogue.detail.GameDetailActivity
 import kotlinx.android.synthetic.main.fragment_favorite.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -25,7 +25,7 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (activity != null) {
-            val gameAdapter = GameAdapter()
+            val gameAdapter = FavoriteGameAdapter()
             gameAdapter.onItemClick = {
                 val intent = Intent(context, GameDetailActivity::class.java)
                 intent.putExtra("id", it.id)
@@ -41,10 +41,6 @@ class FavoriteFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
                 adapter = gameAdapter
-            }
-
-            swipeFavorite.setOnRefreshListener {
-
             }
         }
     }

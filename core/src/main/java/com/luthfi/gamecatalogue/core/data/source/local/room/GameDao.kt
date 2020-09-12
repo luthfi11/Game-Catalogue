@@ -1,6 +1,7 @@
 package com.luthfi.gamecatalogue.core.data.source.local.room
 
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.luthfi.gamecatalogue.core.data.source.local.entity.GameEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -25,8 +26,8 @@ interface GameDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGameList(game: List<GameEntity>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertGame(game: GameEntity)
+    @RawQuery
+    suspend fun updateGameData(query: SupportSQLiteQuery): GameEntity
 
     @Update
     fun updateFavoriteGame(gameEntity: GameEntity)

@@ -25,6 +25,7 @@
             android:id="@+id/rvPopularGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="100dp"
             app:layout_constraintTop_toBottomOf="@+id/tvPopularGame"
             tools:itemCount="1"
             tools:listitem="@layout/item_game" />
@@ -53,6 +54,7 @@
             android:id="@+id/rvUpcomingGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="100dp"
             app:layout_constraintTop_toBottomOf="@+id/tvUpcomingGame"
             tools:itemCount="1"
             tools:listitem="@layout/item_game" />
@@ -81,6 +83,7 @@
             android:id="@+id/rvTopRatedGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="100dp"
             app:layout_constraintTop_toBottomOf="@+id/tvTopRatedGame"
             tools:itemCount="1"
             tools:listitem="@layout/item_game" />

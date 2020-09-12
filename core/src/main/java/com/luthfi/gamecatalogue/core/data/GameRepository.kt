@@ -1,5 +1,6 @@
 package com.luthfi.gamecatalogue.core.data
 
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.luthfi.gamecatalogue.core.data.source.local.LocalDataSource
 import com.luthfi.gamecatalogue.core.data.source.remote.RemoteDataSource
 import com.luthfi.gamecatalogue.core.data.source.remote.network.ApiResponse
@@ -71,7 +72,9 @@ class GameRepository(
     override fun getGameDetail(id: String): Flow<Resource<Game>> =
         object : NetworkBoundResource<Game, GameResponse>() {
             override fun loadFromDB(): Flow<Game> {
-                return localDataSource.getGameDetail(id.toInt()).map { DataMapper.mapEntityToDomain(it) }
+                return localDataSource.getGameDetail(id.toInt()).map { DataMapper.mapEntityToDomain(
+                    it
+                ) }
             }
 
             override fun shouldFetch(data: Game?): Boolean = data?.description == null
@@ -80,8 +83,8 @@ class GameRepository(
                 remoteDataSource.getGameDetail(id)
 
             override suspend fun saveCallResult(data: GameResponse) {
-                val game = DataMapper.mapResponseToEntity(data)
-                localDataSource.insertGame(game)
+                val query = SimpleSQLiteQuery("UPDATE game SET description = ?, website = ? WHERE id = ?", arrayOf(data.description, data.website, data.id))
+                localDataSource.updateGameData(query)
             }
 
         }.asFlow()

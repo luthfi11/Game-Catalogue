@@ -17,6 +17,7 @@ class RemoteDataSource(private val apiService: ApiService) {
             val dataArray = response.results
             if (dataArray.isNotEmpty()) {
                 emit(ApiResponse.Success(response.results))
+                Log.e("RemoteDataSource", response.results.toString())
             } else {
                 emit(ApiResponse.Empty)
             }

@@ -1,9 +1,5 @@
 package com.luthfi.gamecatalogue.core.domain.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
 data class Game (
     val id: Int?,
     val name: String?,
@@ -13,5 +9,7 @@ data class Game (
     val ratingCount: Int?,
     val description: String?,
     val website: String?,
+    val genres: List<Genre>?,
+    val screenshot: List<Screenshot>?,
     val isFavorite: Boolean
-): Parcelable
+)

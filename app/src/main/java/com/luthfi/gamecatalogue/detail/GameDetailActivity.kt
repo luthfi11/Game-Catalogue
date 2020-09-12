@@ -7,11 +7,13 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.luthfi.gamecatalogue.R
 import com.luthfi.gamecatalogue.core.data.Resource
 import com.luthfi.gamecatalogue.core.domain.model.Game
+import com.luthfi.gamecatalogue.core.ui.ScreenshotAdapter
 import com.luthfi.gamecatalogue.core.utils.dateFormat
 import kotlinx.android.synthetic.main.activity_game_detail.*
 import kotlinx.android.synthetic.main.content_game_detail.*
@@ -57,12 +59,27 @@ class GameDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedList
             var favoriteStatus = data.isFavorite
             setFavoriteStatus(favoriteStatus)
 
-            Glide.with(applicationContext).load(data.backgroundImage).into(imgBackground)
+            Glide.with(applicationContext).load(data.backgroundImage).placeholder(android.R.color.darker_gray).into(imgBackground)
             tvGameName.text = data.name
             tvDescription.text = data.description
             tvReleaseDate.text = dateFormat(data.released)
             tvRating.text = String.format(getString(R.string.rating_template), data.rating.toString(), data.ratingCount)
             tvWebsite.text = data.website
+
+            var genre = ""
+            data.genres?.forEach {
+                genre += "${it.name}\n"
+            }
+
+            tvGenre.text = genre
+
+            val screenshotAdapter = ScreenshotAdapter()
+            screenshotAdapter.setData(data.screenshot)
+            with(rvScreenshot) {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(true)
+                adapter = screenshotAdapter
+            }
 
             fab.setOnClickListener {
                 favoriteStatus = !favoriteStatus
