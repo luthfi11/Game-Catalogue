@@ -7,18 +7,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_size"
-            android:background="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:theme="@style/AppTheme.AppBarOverlay"
-            app:title="Favorite"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:title="Favorite" />
 
         <TextView
             android:id="@+id/tvFavoriteGame"
@@ -26,28 +25,26 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="@string/your_favorite_game"
-            android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:theme="@style/AppTheme.TextPrimary"
             app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFavoriteGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tvFavoriteGame"
+            app:layout_constraintTop_toBottomOf="@id/tvFavoriteGame"
             tools:listitem="@layout/item_favorite_game" />
 
         <TextView
             android:id="@+id/tvEmptyFavorite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
             android:gravity="center"
             android:text="@string/empty_favorite"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvFavoriteGame" />
 

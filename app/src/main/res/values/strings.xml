@@ -4,7 +4,6 @@
     <string name="title_explore">Explore</string>
     <string name="title_favorite">Favorite</string>
     <string name="popular_games">Popular Games</string>
-    <string name="save">Save</string>
     <string name="your_favorite_game">Your Favorite Game</string>
     <string name="empty_favorite">No favorite game yet</string>
     <string name="game_rating">Game Rating</string>
@@ -13,10 +12,8 @@
     <string name="website">Website</string>
     <string name="upcoming_games">Upcoming Games</string>
     <string name="top_rated_games">Top Rated Games</string>
-    <string name="genres">Genres</string>
-    <string name="developers">Developers</string>
-    <string name="creators">Creators</string>
     <string name="genre">Genre</string>
     <string name="screenshot">Screenshot</string>
     <string name="games_not_found">Games not found!</string>
+    <string name="set_theme">Set Theme</string>
 </resources>

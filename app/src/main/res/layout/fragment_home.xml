@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme.TextPrimary" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_size"
-            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.AppBarOverlay"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:title="Home"/>
+            app:title="Home" />
 
         <TextView
             android:id="@+id/tvPopularGame"
@@ -26,11 +26,10 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="@string/popular_games"
-            android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPopularGame"
@@ -55,7 +54,6 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="@string/upcoming_games"
-            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +82,6 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="@string/top_rated_games"
-            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

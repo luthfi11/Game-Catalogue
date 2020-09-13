@@ -31,7 +31,7 @@ class ScreenshotAdapter : RecyclerView.Adapter<ScreenshotAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = screenshotList.size
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(screenshot: Screenshot) {
             with(itemView) {

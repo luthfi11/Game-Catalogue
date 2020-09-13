@@ -2,14 +2,17 @@ package com.luthfi.gamecatalogue.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luthfi.gamecatalogue.R
 import com.luthfi.gamecatalogue.core.data.Resource
+import com.luthfi.gamecatalogue.core.domain.model.Game
 import com.luthfi.gamecatalogue.core.ui.GameAdapter
 import com.luthfi.gamecatalogue.detail.GameDetailActivity
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -34,96 +37,85 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (activity != null) {
+            (activity as AppCompatActivity).setSupportActionBar(toolbar)
+            setHasOptionsMenu(true)
+
             popularGameAdapter = GameAdapter()
-            popularGameAdapter.onItemClick = { goToDetail(it.id) }
-
             upcomingGameAdapter = GameAdapter()
-            upcomingGameAdapter.onItemClick = { goToDetail(it.id) }
-
             topRatedGamesAdapter = GameAdapter()
+
+            popularGameAdapter.onItemClick = { goToDetail(it.id) }
+            upcomingGameAdapter.onItemClick = { goToDetail(it.id) }
             topRatedGamesAdapter.onItemClick = { goToDetail(it.id) }
 
             getPopularGames()
             getUpcomingGames()
             getTopRatedGames()
-
-            with(rvPopularGame) {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                setHasFixedSize(true)
-                adapter = popularGameAdapter
-            }
-
-            with(rvUpcomingGame) {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                setHasFixedSize(true)
-                adapter = upcomingGameAdapter
-            }
-
-            with(rvTopRatedGame) {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                setHasFixedSize(true)
-                adapter = topRatedGamesAdapter
-            }
         }
     }
 
-    private fun getPopularGames() {
-        homeViewModel.popularGames.observe(viewLifecycleOwner, { game ->
+    private fun dataObserver(adapter: GameAdapter, progressBar: ProgressBar) =
+        Observer<Resource<List<Game>>> { game ->
             if (game != null) {
                 when (game) {
-                    is Resource.Loading -> progressPopular.visibility = View.VISIBLE
+                    is Resource.Loading -> progressBar.visibility = View.VISIBLE
                     is Resource.Success -> {
-                        progressPopular.visibility = View.GONE
-                        popularGameAdapter.setData(game.data)
+                        progressBar.visibility = View.GONE
+                        adapter.setData(game.data)
                     }
                     is Resource.Error -> {
-                        progressPopular.visibility = View.INVISIBLE
+                        progressBar.visibility = View.INVISIBLE
                         Toast.makeText(context, game.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-        })
+        }
+
+    private fun getPopularGames() {
+        homeViewModel.popularGames.observe(viewLifecycleOwner, dataObserver(popularGameAdapter, progressPopular))
+        with(rvPopularGame) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            adapter = popularGameAdapter
+        }
     }
 
     private fun getUpcomingGames() {
-        homeViewModel.upcomingGames.observe(viewLifecycleOwner, { game ->
-            if (game != null) {
-                when (game) {
-                    is Resource.Loading -> progressUpcoming.visibility = View.VISIBLE
-                    is Resource.Success -> {
-                        progressUpcoming.visibility = View.GONE
-                        upcomingGameAdapter.setData(game.data)
-                    }
-                    is Resource.Error -> {
-                        progressUpcoming.visibility = View.INVISIBLE
-                        Toast.makeText(context, game.message, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        })
+        homeViewModel.upcomingGames.observe(viewLifecycleOwner, dataObserver(upcomingGameAdapter, progressUpcoming))
+        with(rvUpcomingGame) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            adapter = upcomingGameAdapter
+        }
     }
 
     private fun getTopRatedGames() {
-        homeViewModel.topRatedGames.observe(viewLifecycleOwner, { game ->
-            if (game != null) {
-                when (game) {
-                    is Resource.Loading -> progressTopRated.visibility = View.VISIBLE
-                    is Resource.Success -> {
-                        progressTopRated.visibility = View.GONE
-                        topRatedGamesAdapter.setData(game.data)
-                    }
-                    is Resource.Error -> {
-                        progressTopRated.visibility = View.INVISIBLE
-                        Toast.makeText(context, game.message, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        })
+        homeViewModel.topRatedGames.observe(viewLifecycleOwner, dataObserver(topRatedGamesAdapter, progressTopRated))
+        with(rvTopRatedGame) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            adapter = topRatedGamesAdapter
+        }
     }
 
     private fun goToDetail(id: Int?) {
         val intent = Intent(context, GameDetailActivity::class.java)
         intent.putExtra("id", id)
         startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.theme_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.actionTheme) {
+            val currentNightMode = resources.configuration.uiMode
+
+            if (currentNightMode == 33) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.luthfi.gamecatalogue.R
 import com.luthfi.gamecatalogue.core.ui.FavoriteGameAdapter
 import com.luthfi.gamecatalogue.detail.GameDetailActivity
+import com.luthfi.gamecatalogue.favorite.di.favoriteModule
 import kotlinx.android.synthetic.main.fragment_favorite.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 
 class FavoriteFragment : Fragment() {
 
@@ -25,6 +27,8 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (activity != null) {
+            loadKoinModules(favoriteModule)
+
             val gameAdapter = FavoriteGameAdapter()
             gameAdapter.onItemClick = {
                 val intent = Intent(context, GameDetailActivity::class.java)
@@ -43,5 +47,10 @@ class FavoriteFragment : Fragment() {
                 adapter = gameAdapter
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        unloadKoinModules(favoriteModule)
     }
 }
