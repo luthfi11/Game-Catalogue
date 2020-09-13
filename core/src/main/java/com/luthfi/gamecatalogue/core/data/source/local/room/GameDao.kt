@@ -17,6 +17,9 @@ interface GameDao {
     @Query("SELECT * FROM game WHERE rating >= 4.8 AND released IS NOT NULL")
     fun getTopRatedGames(): Flow<List<GameEntity>>
 
+    @RawQuery(observedEntities = [GameEntity::class])
+    fun searchGames(query: SupportSQLiteQuery): Flow<List<GameEntity>>
+
     @Query("SELECT * FROM game WHERE id = :id")
     fun getGameDetail(id: Int): Flow<GameEntity>
 

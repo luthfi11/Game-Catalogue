@@ -61,5 +61,11 @@ z
 Jcore/src/main/java/com/luthfi/gamecatalogue/core/ui/FavoriteGameAdapter.kt,f\0\f0562b0aa538bc5deba8e88f353c09abf7bf42e4
 v
 Fcore/src/main/java/com/luthfi/gamecatalogue/core/domain/model/Genre.kt,8\5\858b6896c1afb5c3e0c0e8df7259bcbb32de20d1
+j
+:app/src/main/java/com/luthfi/gamecatalogue/MainActivity.kt,1\d\1d1a0983d66e5904fa959e986effa81111b944e8
+t
+Dcore/src/main/java/com/luthfi/gamecatalogue/core/utils/Converters.kt,5\d\5d1e7305d43726d1acc5cc2d6d519e32533e0f44
+{
+Kcore/src/main/java/com/luthfi/gamecatalogue/core/domain/model/Screenshot.kt,d\9\d9020b55169734a5930d1c7c40a4df9c1d1cf01c
 x
-Hcore/src/main/java/com/luthfi/gamecatalogue/core/utils/GenreConverter.kt,b\a\ba8c597b103a5b4405ee7679497c4f0b60f869a5
+Hcore/src/main/java/com/luthfi/gamecatalogue/core/ui/ScreenshotAdapter.kt,b\b\bb3798c75ac5556bd1e5d09703cb0f0f8251a48a

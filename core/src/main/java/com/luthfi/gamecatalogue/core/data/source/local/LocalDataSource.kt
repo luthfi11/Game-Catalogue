@@ -13,6 +13,8 @@ class LocalDataSource(private val gameDao: GameDao) {
 
     fun getTopRatedGames() : Flow<List<GameEntity>> = gameDao.getTopRatedGames()
 
+    fun searchGames(query: SupportSQLiteQuery) : Flow<List<GameEntity>> = gameDao.searchGames(query)
+
     fun getGameDetail(id: Int) : Flow<GameEntity> = gameDao.getGameDetail(id)
 
     fun getFavoriteGame() : Flow<List<GameEntity>> = gameDao.getFavoriteGame()

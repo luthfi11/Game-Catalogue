@@ -22,6 +22,11 @@ class FavoriteGameAdapter : RecyclerView.Adapter<FavoriteGameAdapter.FavoriteGam
         notifyDataSetChanged()
     }
 
+    fun clearData() {
+        gameList.clear()
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteGameViewHolder =
         FavoriteGameViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_favorite_game, parent, false)

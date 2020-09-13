@@ -69,6 +69,25 @@ class GameRepository(
             }
         }.asFlow()
 
+    override fun searchGames(name: String): Flow<Resource<List<Game>>> =
+        object : NetworkBoundResource<List<Game>, List<GameResponse>>() {
+            override fun loadFromDB(): Flow<List<Game>> {
+                val query = SimpleSQLiteQuery("SELECT * FROM game WHERE name LIKE '%${name}%'")
+                return localDataSource.searchGames(query).map { DataMapper.mapEntitiesToDomain(it) }
+            }
+
+            override fun shouldFetch(data: List<Game>?): Boolean = data == null || data.isEmpty()
+
+            override suspend fun createCall(): Flow<ApiResponse<List<GameResponse>>> =
+                remoteDataSource.searchGames(name)
+
+            override suspend fun saveCallResult(data: List<GameResponse>) {
+                val gameList = DataMapper.mapResponseToEntities(data)
+                localDataSource.insertGameList(gameList)
+            }
+
+        }.asFlow()
+
     override fun getGameDetail(id: String): Flow<Resource<Game>> =
         object : NetworkBoundResource<Game, GameResponse>() {
             override fun loadFromDB(): Flow<Game> {

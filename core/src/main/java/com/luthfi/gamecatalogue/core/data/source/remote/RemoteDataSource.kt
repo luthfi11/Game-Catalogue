@@ -42,6 +42,11 @@ class RemoteDataSource(private val apiService: ApiService) {
         return requestGameData(response)
     }
 
+    suspend fun searchGames(name: String): Flow<ApiResponse<List<GameResponse>>> {
+        val response = apiService.searchGames(name)
+        return requestGameData(response)
+    }
+
     suspend fun getGameDetail(id: String): Flow<ApiResponse<GameResponse>> = flow {
         try {
             val response = apiService.getGameDetail(id)

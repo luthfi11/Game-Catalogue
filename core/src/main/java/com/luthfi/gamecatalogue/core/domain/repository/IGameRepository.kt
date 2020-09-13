@@ -12,6 +12,8 @@ interface IGameRepository {
 
     fun getTopRatedGames(): Flow<Resource<List<Game>>>
 
+    fun searchGames(name: String): Flow<Resource<List<Game>>>
+
     fun getGameDetail(id: String): Flow<Resource<Game>>
 
     fun getFavoriteGame(): Flow<List<Game>>

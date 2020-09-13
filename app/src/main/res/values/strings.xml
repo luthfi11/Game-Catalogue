@@ -18,4 +18,5 @@
     <string name="creators">Creators</string>
     <string name="genre">Genre</string>
     <string name="screenshot">Screenshot</string>
+    <string name="games_not_found">Games not found!</string>
 </resources>
