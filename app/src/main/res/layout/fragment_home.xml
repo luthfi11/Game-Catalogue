@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme.TextPrimary" >
+    android:theme="@style/AppTheme.TextPrimary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -35,18 +35,28 @@
             android:id="@+id/rvPopularGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="100dp"
+            android:minHeight="180dp"
             app:layout_constraintTop_toBottomOf="@+id/tvPopularGame"
             tools:itemCount="1"
             tools:listitem="@layout/item_game" />
 
-        <ProgressBar
+        <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/progressPopular"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPopularGame" />
+            app:layout_constraintTop_toBottomOf="@+id/tvPopularGame"
+            app:shimmer_auto_start="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include layout="@layout/item_game_placeholder" />
+
+                <include layout="@layout/item_game_placeholder" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <TextView
             android:id="@+id/tvUpcomingGame"
@@ -63,18 +73,28 @@
             android:id="@+id/rvUpcomingGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="100dp"
+            android:minHeight="180dp"
             app:layout_constraintTop_toBottomOf="@+id/tvUpcomingGame"
             tools:itemCount="1"
             tools:listitem="@layout/item_game" />
 
-        <ProgressBar
+        <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/progressUpcoming"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUpcomingGame" />
+            app:layout_constraintTop_toBottomOf="@+id/tvUpcomingGame"
+            app:shimmer_auto_start="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include layout="@layout/item_game_placeholder" />
+
+                <include layout="@layout/item_game_placeholder" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <TextView
             android:id="@+id/tvTopRatedGame"
@@ -91,18 +111,28 @@
             android:id="@+id/rvTopRatedGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="100dp"
+            android:minHeight="180dp"
             app:layout_constraintTop_toBottomOf="@+id/tvTopRatedGame"
             tools:itemCount="1"
             tools:listitem="@layout/item_game" />
 
-        <ProgressBar
+        <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/progressTopRated"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTopRatedGame" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTopRatedGame"
+            app:shimmer_auto_start="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include layout="@layout/item_game_placeholder" />
+
+                <include layout="@layout/item_game_placeholder" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

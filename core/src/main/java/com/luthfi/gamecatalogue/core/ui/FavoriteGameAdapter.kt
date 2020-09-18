@@ -1,6 +1,5 @@
 package com.luthfi.gamecatalogue.core.ui
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.luthfi.gamecatalogue.core.R
 import com.luthfi.gamecatalogue.core.domain.model.Game
+import com.luthfi.gamecatalogue.core.utils.OnGameClick
 import kotlinx.android.synthetic.main.item_favorite_game.view.*
 
-class FavoriteGameAdapter : RecyclerView.Adapter<FavoriteGameAdapter.FavoriteGameViewHolder>() {
+class FavoriteGameAdapter(private val onGameClick: OnGameClick) : RecyclerView.Adapter<FavoriteGameAdapter.FavoriteGameViewHolder>() {
 
     private var gameList = arrayListOf<Game>()
-    var onItemClick: ((Game) -> Unit)? = null
 
     fun setData(newGameList: List<Game>?) {
         if (newGameList == null) return
@@ -39,17 +38,12 @@ class FavoriteGameAdapter : RecyclerView.Adapter<FavoriteGameAdapter.FavoriteGam
     override fun getItemCount(): Int = gameList.size
 
     inner class FavoriteGameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @SuppressLint("SetTextI18n")
         fun bind(game: Game) {
             with(itemView) {
                 Glide.with(context).load(game.backgroundImage).placeholder(android.R.color.darker_gray).into(imgBackground)
                 tvGameName.text = game.name
-            }
-        }
 
-        init {
-            itemView.setOnClickListener {
-                onItemClick?.invoke(gameList[adapterPosition])
+                setOnClickListener { onGameClick.goToDetail(game.id) }
             }
         }
     }

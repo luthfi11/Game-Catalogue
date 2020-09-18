@@ -72,17 +72,4 @@ object DataMapper  {
         isFavorite = input.isFavorite
     )
 
-    fun mapResponseToEntity(input: GameResponse) = GameEntity(
-        id = input.id,
-        name = input.name,
-        released = input.released,
-        backgroundImage = input.backgroundImage,
-        rating = input.rating,
-        ratingCount = input.ratingCount,
-        description = input.description,
-        website = input.website,
-        genres = input.genres,
-        screenshot = input.screenshot,
-        isFavorite = false
-    )
 }

@@ -12,16 +12,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.luthfi.gamecatalogue.R
 import com.luthfi.gamecatalogue.core.data.Resource
 import com.luthfi.gamecatalogue.core.ui.FavoriteGameAdapter
+import com.luthfi.gamecatalogue.core.utils.OnGameClick
 import com.luthfi.gamecatalogue.detail.GameDetailActivity
 import kotlinx.android.synthetic.main.fragment_explore.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ExploreFragment : Fragment() {
+class ExploreFragment : Fragment(), OnGameClick, SearchView.OnQueryTextListener {
 
     private val exploreViewModel: ExploreViewModel by viewModel()
-    private lateinit var gameAdapter : FavoriteGameAdapter
+    private lateinit var gameAdapter: FavoriteGameAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_explore, container, false)
     }
 
@@ -29,9 +34,7 @@ class ExploreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (activity != null) {
-            gameAdapter = FavoriteGameAdapter()
-
-            doSearch()
+            gameAdapter = FavoriteGameAdapter(this)
 
             with(rvSearch) {
                 layoutManager = LinearLayoutManager(context)
@@ -39,44 +42,42 @@ class ExploreFragment : Fragment() {
                 adapter = gameAdapter
             }
 
-            gameAdapter.onItemClick = {
-                val intent = Intent(context, GameDetailActivity::class.java)
-                intent.putExtra("id", it.id)
-                startActivity(intent)
-            }
+            exploreViewModel.searchGames.observe(viewLifecycleOwner, { game ->
+                when (game) {
+                    is Resource.Loading -> {
+                        progressSearch.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        progressSearch.visibility = View.GONE
+                        if (game.data != null) {
+                            gameAdapter.setData(game.data)
+                            tvEmpty.visibility = View.GONE
+                        } else tvEmpty.visibility = View.VISIBLE
+                    }
+                    is Resource.Error -> {
+                        progressSearch.visibility = View.GONE
+                        Toast.makeText(context, game.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
+
+            search.setOnQueryTextListener(this)
         }
     }
 
-    private fun doSearch() {
-        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    gameAdapter.clearData()
-                    exploreViewModel.searchGames(query).observe(viewLifecycleOwner, { game ->
-                        when (game) {
-                            is Resource.Loading -> {
-                                progressSearch.visibility = View.VISIBLE
-                            }
-                            is Resource.Success -> {
-                                progressSearch.visibility = View.GONE
-                                if (game.data != null) {
-                                    gameAdapter.setData(game.data)
-                                    tvEmpty.visibility = View.GONE
-                                }
-                                else tvEmpty.visibility = View.VISIBLE
-                            }
-                            is Resource.Error -> {
-                                progressSearch.visibility = View.GONE
-                                Toast.makeText(context, game.message, Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    })
-                }
-                return true
-            }
-
-            override fun onQueryTextChange(p0: String?): Boolean =
-                false
-        })
+    override fun goToDetail(id: Int?) {
+        val intent = Intent(context, GameDetailActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
     }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            gameAdapter.clearData()
+            exploreViewModel.setSearchQuery(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(p0: String?): Boolean = false
 }

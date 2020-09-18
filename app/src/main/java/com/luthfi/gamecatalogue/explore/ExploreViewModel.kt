@@ -1,9 +1,17 @@
 package com.luthfi.gamecatalogue.explore
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.luthfi.gamecatalogue.core.domain.usecase.GameUseCase
 
 class ExploreViewModel(private val gameUseCase: GameUseCase) : ViewModel() {
-    fun searchGames(name: String) = gameUseCase.searchGames(name).asLiveData()
+
+    private val searchQuery = MutableLiveData("")
+
+    val searchGames = Transformations.switchMap(searchQuery) {
+        gameUseCase.searchGames(it).asLiveData()
+    }
+
+    fun setSearchQuery(name: String) {
+        searchQuery.value = name
+    }
 }

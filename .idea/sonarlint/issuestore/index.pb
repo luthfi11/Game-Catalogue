@@ -79,3 +79,7 @@ k
 ;app/src/main/java/com/luthfi/gamecatalogue/MyApplication.kt,8\3\83259c8666a446b79ac6ce8ff07d09e289ca6330
 |
 Lfavorite/src/main/java/com/luthfi/gamecatalogue/favorite/FavoriteFragment.kt,6\6\66cacf1c8468b8d9a2a9e9ca2c38fc515ae5e9e9
+J
+shared_dependencies.gradle,b\e\bea21ad436ad8008e4327b60ad9d3401a26c6abc
+A
+core/build.gradle,9\1\918ca359602392354123b7d3b63264baf7ea9dde

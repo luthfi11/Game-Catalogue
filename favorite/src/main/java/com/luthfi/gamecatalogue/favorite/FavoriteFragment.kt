@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luthfi.gamecatalogue.core.ui.FavoriteGameAdapter
+import com.luthfi.gamecatalogue.core.utils.OnGameClick
 import com.luthfi.gamecatalogue.detail.GameDetailActivity
 import com.luthfi.gamecatalogue.favorite.di.favoriteModule
 import kotlinx.android.synthetic.main.fragment_favorite.*
@@ -15,7 +16,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : Fragment(), OnGameClick {
 
     private val favoriteViewModel: FavoriteViewModel by viewModel()
 
@@ -29,16 +30,11 @@ class FavoriteFragment : Fragment() {
         if (activity != null) {
             loadKoinModules(favoriteModule)
 
-            val gameAdapter = FavoriteGameAdapter()
-            gameAdapter.onItemClick = {
-                val intent = Intent(context, GameDetailActivity::class.java)
-                intent.putExtra("id", it.id)
-                startActivity(intent)
-            }
+            val gameAdapter = FavoriteGameAdapter(this)
 
             favoriteViewModel.favoriteGame.observe(viewLifecycleOwner, {
                 gameAdapter.setData(it)
-                tvEmptyFavorite.visibility = if (it.isNotEmpty()) View.GONE else View.VISIBLE
+                viewEmpty.visibility = if (it.isNotEmpty()) View.GONE else View.VISIBLE
             })
 
             with(rvFavoriteGame) {
@@ -52,5 +48,11 @@ class FavoriteFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         unloadKoinModules(favoriteModule)
+    }
+
+    override fun goToDetail(id: Int?) {
+        val intent = Intent(context, GameDetailActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
     }
 }

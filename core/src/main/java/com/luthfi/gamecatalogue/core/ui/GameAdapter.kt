@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.luthfi.gamecatalogue.core.R
 import com.luthfi.gamecatalogue.core.domain.model.Game
+import com.luthfi.gamecatalogue.core.utils.OnGameClick
 import kotlinx.android.synthetic.main.item_game.view.*
 
-class GameAdapter : RecyclerView.Adapter<GameAdapter.GameViewHolder>() {
+class GameAdapter(private val onGameClick: OnGameClick) : RecyclerView.Adapter<GameAdapter.GameViewHolder>() {
 
     private var gameList = arrayListOf<Game>()
-    var onItemClick: ((Game) -> Unit)? = null
 
     fun setData(newGameList: List<Game>?) {
         if (newGameList == null) return
@@ -37,12 +37,8 @@ class GameAdapter : RecyclerView.Adapter<GameAdapter.GameViewHolder>() {
             with(itemView) {
                 Glide.with(context).load(game.backgroundImage).placeholder(android.R.color.darker_gray).into(imgBackground)
                 tvGameName.text = game.name
-            }
-        }
 
-        init {
-            itemView.setOnClickListener {
-                onItemClick?.invoke(gameList[adapterPosition])
+                setOnClickListener { onGameClick.goToDetail(game.id) }
             }
         }
     }

@@ -14,9 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_size"
             android:theme="@style/AppTheme.AppBarOverlay"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:title="Favorite" />
 
         <TextView
@@ -27,7 +27,7 @@
             android:text="@string/your_favorite_game"
             android:textSize="18sp"
             android:theme="@style/AppTheme.TextPrimary"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFavoriteGame"
@@ -36,17 +36,34 @@
             app:layout_constraintTop_toBottomOf="@id/tvFavoriteGame"
             tools:listitem="@layout/item_favorite_game" />
 
-        <TextView
-            android:id="@+id/tvEmptyFavorite"
+        <LinearLayout
+            android:id="@+id/viewEmpty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical"
             android:gravity="center"
-            android:text="@string/empty_favorite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFavoriteGame" />
+            app:layout_constraintTop_toBottomOf="@id/tvFavoriteGame">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieFavorite"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="empty_box.json"
+                app:lottie_loop="true" />
+
+            <TextView
+                android:id="@+id/tvEmptyFavorite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/empty_favorite" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

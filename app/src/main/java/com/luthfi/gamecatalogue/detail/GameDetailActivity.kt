@@ -4,12 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.google.android.material.appbar.AppBarLayout
 import com.luthfi.gamecatalogue.R
 import com.luthfi.gamecatalogue.core.data.Resource
 import com.luthfi.gamecatalogue.core.domain.model.Game
@@ -19,9 +19,10 @@ import kotlinx.android.synthetic.main.activity_game_detail.*
 import kotlinx.android.synthetic.main.content_game_detail.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class GameDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
+class GameDetailActivity : AppCompatActivity() {
 
     private val gameDetailViewModel: GameDetailViewModel by viewModel()
+    private lateinit var screenshotAdapter: ScreenshotAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,23 +32,31 @@ class GameDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedList
 
         val gameId = intent.getIntExtra("id", 0).toString()
 
-        getGameDetail(gameId)
-
-        swipeDetail.setOnRefreshListener {
-            getGameDetail(gameId)
+        screenshotAdapter = ScreenshotAdapter()
+        with(rvScreenshot) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            adapter = screenshotAdapter
         }
+
+        getGameDetail(gameId)
     }
 
     private fun getGameDetail(id: String) {
         gameDetailViewModel.getGameDetail(id).observe(this, { game ->
             when (game) {
-                is Resource.Loading -> swipeDetail.isRefreshing = true
+                is Resource.Loading -> {
+                    contentDetail.visibility = View.GONE
+                    progressDetail.visibility = View.VISIBLE
+                }
                 is Resource.Success -> {
-                    swipeDetail.isRefreshing = false
+                    contentDetail.visibility = View.VISIBLE
+                    progressDetail.visibility = View.GONE
                     showGameDetail(game.data)
                 }
                 is Resource.Error -> {
-                    swipeDetail.isRefreshing = true
+                    contentDetail.visibility = View.VISIBLE
+                    progressDetail.visibility = View.GONE
                     Toast.makeText(this, game.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -59,12 +68,16 @@ class GameDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedList
             var favoriteStatus = data.isFavorite
             setFavoriteStatus(favoriteStatus)
 
-            Glide.with(applicationContext).load(data.backgroundImage).placeholder(android.R.color.darker_gray).into(imgBackground)
+            Glide.with(applicationContext).load(data.backgroundImage)
+                .placeholder(android.R.color.darker_gray).into(imgBackground)
             tvGameName.text = data.name
-            tvDescription.text = data.description
+            tvDescription.text = if (data.description != "") data.description else "No description"
             tvReleaseDate.text = dateFormat(data.released)
-            tvRating.text = String.format(getString(R.string.rating_template), data.rating.toString(), data.ratingCount)
-            tvWebsite.text = data.website
+            tvRating.text = String.format(
+                getString(R.string.rating_template),
+                data.rating.toString(),
+                data.ratingCount
+            )
 
             var genre = ""
             data.genres?.forEach {
@@ -73,13 +86,7 @@ class GameDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedList
 
             tvGenre.text = genre
 
-            val screenshotAdapter = ScreenshotAdapter()
             screenshotAdapter.setData(data.screenshot)
-            with(rvScreenshot) {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                setHasFixedSize(true)
-                adapter = screenshotAdapter
-            }
 
             fab.setOnClickListener {
                 favoriteStatus = !favoriteStatus
@@ -87,10 +94,13 @@ class GameDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedList
                 setFavoriteStatus(favoriteStatus)
             }
 
-            tvWebsite.setOnClickListener {
-                val browseIntent = Intent(Intent.ACTION_VIEW, Uri.parse(data.website))
-                startActivity(browseIntent)
-            }
+            if (data.website != "") {
+                tvWebsite.text = data.website
+                tvWebsite.setOnClickListener {
+                    val browseIntent = Intent(Intent.ACTION_VIEW, Uri.parse(data.website))
+                    startActivity(browseIntent)
+                }
+            } else tvWebsite.text = "-"
         }
     }
 
@@ -110,19 +120,5 @@ class GameDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedList
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) onBackPressed()
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-        swipeDetail.isEnabled = verticalOffset == 0
-    }
-
-    override fun onResume() {
-        super.onResume()
-        appBar.addOnOffsetChangedListener(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        appBar.removeOnOffsetChangedListener(this)
     }
 }
