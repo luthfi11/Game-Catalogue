@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(broadcastReceiver, intentFilter)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
     override fun onStart() {
         super.onStart()
         registerBroadCastReceiver()

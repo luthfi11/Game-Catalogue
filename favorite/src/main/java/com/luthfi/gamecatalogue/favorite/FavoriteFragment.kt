@@ -37,7 +37,7 @@ class FavoriteFragment : Fragment(), OnGameClick {
                 viewEmpty.visibility = if (it.isNotEmpty()) View.GONE else View.VISIBLE
             })
 
-            with(rvFavoriteGame) {
+            rvFavoriteGame.apply {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
                 adapter = gameAdapter

@@ -83,3 +83,13 @@ J
 shared_dependencies.gradle,b\e\bea21ad436ad8008e4327b60ad9d3401a26c6abc
 A
 core/build.gradle,9\1\918ca359602392354123b7d3b63264baf7ea9dde
+u
+Ecore/src/main/java/com/luthfi/gamecatalogue/core/utils/OnGameClick.kt,d\3\d368b4b76dce7bce8df43401e13489bd5226d808
+G
+core/proguard-rules.pro,a\e\ae321721a596c5c74bb3bf67ae304581e8f9ae75
+G
+core/consumer-rules.pro,9\d\9df576c5d0a011f72d84e78ce1617bc4e57720d5
+X
+(gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
+q
+Acore/src/main/java/com/luthfi/gamecatalogue/core/di/CoreModule.kt,5\e\5e8ec81073bb369ac20ed081d536ac40c354ac3e

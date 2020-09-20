@@ -33,7 +33,7 @@ class GameDetailActivity : AppCompatActivity() {
         val gameId = intent.getIntExtra("id", 0).toString()
 
         screenshotAdapter = ScreenshotAdapter()
-        with(rvScreenshot) {
+        rvScreenshot.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             adapter = screenshotAdapter
@@ -84,7 +84,7 @@ class GameDetailActivity : AppCompatActivity() {
                 genre += "${it.name}\n"
             }
 
-            tvGenre.text = genre
+            tvGenre.text = if (genre != "") genre else "-"
 
             screenshotAdapter.setData(data.screenshot)
 

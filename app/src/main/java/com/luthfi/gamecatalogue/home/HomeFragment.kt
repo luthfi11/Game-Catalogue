@@ -23,9 +23,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class HomeFragment : Fragment(), OnGameClick {
 
     private val homeViewModel: HomeViewModel by viewModel()
-    private lateinit var popularGameAdapter: GameAdapter
-    private lateinit var upcomingGameAdapter: GameAdapter
-    private lateinit var topRatedGamesAdapter: GameAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,9 +39,9 @@ class HomeFragment : Fragment(), OnGameClick {
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
             setHasOptionsMenu(true)
 
-            popularGameAdapter = GameAdapter(this)
-            upcomingGameAdapter = GameAdapter(this)
-            topRatedGamesAdapter = GameAdapter(this)
+            val popularGameAdapter = GameAdapter(this)
+            val upcomingGameAdapter = GameAdapter(this)
+            val topRatedGamesAdapter = GameAdapter(this)
 
             setUpRecycler(rvPopularGame, popularGameAdapter)
             setUpRecycler(rvUpcomingGame, upcomingGameAdapter)
@@ -74,7 +71,7 @@ class HomeFragment : Fragment(), OnGameClick {
         }
 
     private fun setUpRecycler(recyclerView: RecyclerView, gameAdapter: GameAdapter) {
-        with(recyclerView) {
+        recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             adapter = gameAdapter
