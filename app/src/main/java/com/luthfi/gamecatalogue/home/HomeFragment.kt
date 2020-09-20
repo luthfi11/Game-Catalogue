@@ -2,10 +2,10 @@ package com.luthfi.gamecatalogue.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,9 +36,6 @@ class HomeFragment : Fragment(), OnGameClick {
         super.onViewCreated(view, savedInstanceState)
 
         if (activity != null) {
-            (activity as AppCompatActivity).setSupportActionBar(toolbar)
-            setHasOptionsMenu(true)
-
             val popularGameAdapter = GameAdapter(this)
             val upcomingGameAdapter = GameAdapter(this)
             val topRatedGamesAdapter = GameAdapter(this)
@@ -76,21 +73,6 @@ class HomeFragment : Fragment(), OnGameClick {
             setHasFixedSize(true)
             adapter = gameAdapter
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.theme_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.actionTheme) {
-            val currentNightMode = resources.configuration.uiMode
-
-            if (currentNightMode == 33) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun goToDetail(id: Int?) {
